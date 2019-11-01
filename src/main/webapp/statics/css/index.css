@@ -1,0 +1,20 @@
+body{
+    background-color: #F7F7F7;
+}
+h1{
+    font-size: 70px;
+}
+div{
+    margin: 100px auto;
+    width: 600px;
+}
+a{
+    text-decoration: none;
+    font-size: 25px;
+    color: black;
+    line-height: 50px;
+    margin-left: 30px;
+}
+a:hover{
+    color: blue;
+}

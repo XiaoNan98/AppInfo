@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.appsys.dao.appinfo.AppInfoMapper">
+    <select id="getAppInfo" resultType="dataDictionary">
+        select * from data_dictionary
+    </select>
+    <select id="getAppCategory" resultType="appCategory">
+        select * from app_category
+    </select>
+    
+    <resultMap id="appInfo" type="AppInfo">
+        <!--<association property="appCategory" javaType="AppCategory">
+            <id column="id" property="id"/>
+            <result column="categoryCode" property="categoryCode"/>
+            <result column="categoryName1" property="categoryName"/>
+            <result column="categoryName2" property="categoryName"/>
+            <result column="categoryName3" property="categoryName"/>
+            <result column="parentId" property="parentId"/>
+            <result column="createdBy" property="createdBy"/>
+            <result column="creationTime" property="creationTime"/>
+            <result column="modifyBy" property="modifyBy"/>
+            <result column="modifyDate" property="modifyDate"/>
+        </association>
+        <association property="dataDictionary" javaType="DataDictionary">
+            <id column="id" property="id"/>
+            <result column="typeCode" property="typeCode"/>
+            <result property="typeName" column="typeName"/>
+            <result column="valueId" property="valueId"/>
+            <result column="valueName" property="valueName"/>
+            <result column="createdBy" property="createdBy"/>
+            <result column="creationDate" property="creationDate"/>
+            <result column="modifyBy" property="modifyBy"/>
+            <result column="modifyDate" property="modifyDate"/>
+        </association>-->
+        <result column="valueName1" property="valueName1"/>
+        <result column="valueName2" property="valueName2"/>
+        <result column="categoryName1" property="categoryName1"/>
+        <result column="categoryName2" property="categoryName2"/>
+        <result column="categoryName3" property="categoryName3"/>
+    </resultMap>
+    <select id="getAppInfoList" resultType="appInfo">
+        SELECT  app_info.`softwareName`,
+
+	        app_info.`APKName`,
+
+	        app_info.`softwareSize`,
+
+            (SELECT valueName FROM data_dictionary WHERE app_info.`flatformId` = data_dictionary.`valueId` AND typeName = '所属平台') as valueName1,
+
+            (SELECT categoryName  FROM app_category WHERE app_category.`id` = app_info.`categoryLevel1`) as categoryName1,
+
+            (SELECT categoryName  FROM app_category WHERE app_category.`id` = app_info.`categoryLevel2`) as categoryName2,
+
+            (SELECT categoryName  FROM app_category WHERE app_category.`id` = app_info.`categoryLevel3`) as categoryName3,
+
+            (SELECT valueName FROM data_dictionary WHERE app_info.`status` = data_dictionary.`valueId` AND typeName = 'APP状态') as valueName2,
+
+            app_info.`downloads`,
+
+            app_info.`versionId`
+
+        FROM app_info
+    </select>
+</mapper>
